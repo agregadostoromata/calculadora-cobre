@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Calculadora de cobre</title>
+<style>
+:root{color-scheme:light;--bg:#f5f5f4;--card:#fff;--line:#e6e6e3;--txt:#262626;--mut:#8a8a86;--y:#fff59d;--yb:#f0dc4a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:520px;margin:0 auto;padding:14px 12px 40px}
+h1{font-size:16px;font-weight:600;margin:4px 2px 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+h2{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);font-weight:600;margin:0 0 8px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.f label,.f .l{display:block;font-size:11px;color:var(--mut);margin-bottom:2px}
+.f input,.f select{width:100%;height:36px;padding:0 8px;border:1px solid var(--line);border-radius:8px;background:#fafaf9;color:var(--txt);font:inherit;font-size:16px}
+.f input:focus,.f select:focus{outline:2px solid var(--yb);border-color:transparent}
+.f .c{height:36px;display:flex;align-items:center;padding:0 8px;border-radius:8px;background:#f0f0ee;color:#555;font-variant-numeric:tabular-nums}
+.r{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.r:last-of-type{border-bottom:0}
+.r.b{font-weight:600}
+.y{background:var(--y);border:1px solid var(--yb);border-radius:8px;padding:7px 10px;margin-top:6px;display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
+.btns{display:flex;gap:8px;margin-top:10px}
+button{flex:1;height:40px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--txt);font:inherit;font-weight:600;cursor:pointer}
+button.p{background:#262626;color:#fff;border-color:#262626}
+button.wa{background:#25d366;border-color:#25d366;color:#fff}
+button:active{opacity:.7}
+#sum{overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+th{font-size:9.5px;color:var(--mut);font-weight:600;text-align:center;padding:4px 2px;border-bottom:1px solid var(--line)}
+td{text-align:center;padding:6px 2px;border-bottom:1px solid var(--line)}
+td.yy,th.yy{background:var(--y);font-weight:700}
+td.x{width:22px;color:var(--mut);cursor:pointer}
+.empty{color:var(--mut);text-align:center;padding:14px 0;font-size:13px}
+details{color:var(--mut);font-size:12px}
+summary{cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.12em}
+details table td{text-align:left;padding:3px 0}
+details table td:last-child{text-align:right}
+details p{margin:6px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Calculadora de precio · Cobre</h1>
+
+<div class="card">
+  <h2>Leyes</h2>
+  <div class="g">
+    <div class="f"><label for="origen">Origen</label>
+      <select id="origen"><option value="24.3">Pamputa</option><option value="26">Vilcabamba</option><option value="28" selected>Santa Rosa</option></select></div>
+    <div class="f"><label for="lc">Ley de concentrado</label><input id="lc" type="number" inputmode="decimal" step="0.1" value="28"></div>
+    <div class="f"><label for="cu">Cu (%)</label><input id="cu" type="number" inputmode="decimal" step="0.01" value="1.81"></div>
+    <div class="f"><label for="cusol">CuSol (%)</label><input id="cusol" type="number" inputmode="decimal" step="0.01" value="0.1"></div>
+    <div class="f"><label for="merma">Merma - molido</label><input id="merma" type="number" inputmode="decimal" step="0.01" value="0.2"></div>
+    <div class="f"><span class="l">Ley de cabeza</span><div class="c" id="lcab">–</div></div>
+    <div class="f"><label for="lcr">Ley cabeza redondeada</label><input id="lcr" type="number" inputmode="decimal" step="0.01"></div>
+    <div class="f"><label for="ton">Mineral bruto (ton)</label><input id="ton" type="number" inputmode="decimal" value="100"></div>
+    <div class="f"><label for="rec">Recuperación (%)</label><input id="rec" type="number" inputmode="decimal" value="90"></div>
+    <div class="f"><span class="l">Concentrado seco (ton)</span><div class="c" id="cseco">–</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Compra</h2>
+  <div class="g">
+    <div class="f"><label for="pint">Precio internacional</label><input id="pint" type="number" inputmode="decimal" step="0.01" value="6.44"></div>
+    <div class="f"><label for="prot">Protección</label><input id="prot" type="number" inputmode="decimal" step="0.01" value="0.1"></div>
+    <div class="f"><span class="l">Precio protegido</span><div class="c" id="pprot">–</div></div>
+    <div class="f"><label for="tc">Tipo de cambio</label><input id="tc" type="number" inputmode="decimal" step="0.01" value="3.36"></div>
+    <div class="f"><label for="pkg">Compra por kg (US$)</label><input id="pkg" type="number" inputmode="decimal" step="0.01" value="0.05"></div>
+    <div class="f"><label for="lugar">Lugar de compra</label>
+      <select id="lugar"><option value="0">Mina</option><option value="0.18" selected>Pachachaca</option><option value="0.33">Nazca</option></select></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Resultados</h2>
+  <div class="r"><span>Precio TMS</span><span id="ptms">–</span></div>
+  <div class="r"><span>Dsctos. maquila</span><span id="maq">–</span></div>
+  <div class="r b"><span>Neto TMS</span><span id="neto">–</span></div>
+  <div class="r"><span>Inversión mineral</span><span id="imin">–</span></div>
+  <div class="r"><span>Inversión adicional</span><span id="iadi">–</span></div>
+  <div class="r b"><span>Total inversión</span><span id="itot">–</span></div>
+  <div class="r b"><span>Venta total</span><span id="vtot">–</span></div>
+  <div class="r"><span>Inversión x kilo</span><span id="ikg">–</span></div>
+  <div class="r"><span>Venta x kilo</span><span id="vkg">–</span></div>
+  <div class="r"><span>Utilidad x kilo</span><span id="ukg">–</span></div>
+  <div class="r b"><span>Utilidad x TM bruto</span><span id="utm">–</span></div>
+  <div class="y"><span>Rentabilidad</span><span id="rent">–</span></div>
+  <div class="y"><span>Precio de compra por kg</span><span id="pfin">–</span></div>
+  <div class="y"><span>Precio de compra por ton</span><span id="pton">–</span></div>
+  <div class="btns"><button class="p" id="save">+ Guardar prueba</button></div>
+</div>
+
+<div class="card" id="sum">
+  <h2>Resumen de pruebas</h2>
+  <table>
+    <thead><tr><th>Fecha</th><th>P. cobre</th><th>T.C.</th><th>Cu</th><th>CuSol</th><th>Ley cab.</th><th class="yy">S/ ton</th><th class="yy">Rent.</th><th></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty">Aún no hay pruebas guardadas</div>
+  <div class="btns" id="sbtns">
+    <button class="wa" id="share">Compartir imagen</button>
+    <button id="clear">Limpiar</button>
+  </div>
+</div>
+
+<div class="card">
+  <details>
+    <summary>Datos de referencia</summary>
+    <p>Restar a la ley de cabeza</p>
+    <table><tr><td>Ley mayor a 2.5</td><td>0.2</td></tr><tr><td>Ley mayor a 3</td><td>0.3</td></tr></table>
+    <p>Ley de concentrado por origen</p>
+    <table><tr><td>Pamputa (24.5)</td><td>24.3</td></tr><tr><td>Vilcabamba (26 - 27)</td><td>26</td></tr><tr><td>Santa Rosa (28 - 29)</td><td>28</td></tr></table>
+    <p>Adición por lugar de compra</p>
+    <table><tr><td>Mina</td><td>0</td></tr><tr><td>Pachachaca</td><td>0.18</td></tr><tr><td>Nazca</td><td>0.33</td></tr></table>
+    <p>Primero rentabilidad 8%, bajar máximo a 5%.</p>
+    <p>Si son 100 tn para arriba, puedo jugar entre 5% y 8%.</p>
+    <p>Si son menos de 100 tn, mantenerme en 8%.</p>
+  </details>
+</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const n=id=>parseFloat($(id).value)||0;
+const f=(x,d=2)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+const usd=x=>'$ '+f(x);
+let lcrManual=false, cur={}, saved=[];
+
+function calc(){
+  const lcab=n('cu')-n('cusol')-n('merma');
+  $('lcab').textContent=f(lcab);
+  if(!lcrManual) $('lcr').value=(Math.round(lcab*10)/10).toFixed(2);
+  const lcr=n('lcr'), lc=n('lc'), ton=n('ton');
+  const cseco=lc? ton*(lcr/100)*(n('rec')/100)/(lc/100):0;
+  $('cseco').textContent=f(cseco);
+  const pprot=n('pint')-n('prot');
+  $('pprot').textContent=f(pprot);
+  const tc=n('tc')||1;
+  const base=((lc-1.4)/100)*2204.62;
+  const ptms=base*(pprot-0.06), maq=base*0.15+150, neto=ptms-maq;
+  const imin=ton*(n('pkg')/tc)*1000, iadi=ton*(0.48/tc)*1000, itot=imin+iadi;
+  const vtot=cseco*neto, kg=ton*1000||1;
+  const ikg=itot/kg, vkg=vtot/kg, ukg=vkg-ikg, utm=ukg*1000*ton;
+  const rent=itot? utm/itot:0, pfin=n('pkg')+n('lugar');
+  $('ptms').textContent=usd(ptms); $('maq').textContent=usd(maq); $('neto').textContent=usd(neto);
+  $('imin').textContent=usd(imin); $('iadi').textContent=usd(iadi); $('itot').textContent=usd(itot);
+  $('vtot').textContent=usd(vtot); $('ikg').textContent=f(ikg,4); $('vkg').textContent=f(vkg,4);
+  $('ukg').textContent=f(ukg,4); $('utm').textContent=usd(utm);
+  $('rent').textContent=f(rent*100)+'%'; $('pfin').textContent=f(pfin); $('pton').textContent='S/ '+f(pfin*1000);
+  cur={pc:n('pint'),tc:n('tc'),cu:n('cu'),cusol:n('cusol'),lc:lcr,pton:pfin*1000,rent:rent*100};
+}
+
+function today(){const d=new Date();return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();}
+function cells(r){return [r.fecha,f(r.pc),f(r.tc),f(r.cu),r.cusol?f(r.cusol):'',f(r.lc),'S/ '+f(r.pton,0),f(r.rent)+'%'];}
+
+function render(){
+  $('rows').innerHTML=saved.map((r,i)=>{
+    const c=cells(r);
+    return '<tr>'+c.map((v,j)=>'<td'+(j>5?' class="yy"':'')+'>'+v+'</td>').join('')+'<td class="x" data-i="'+i+'">✕</td></tr>';
+  }).join('');
+  $('empty').style.display=saved.length?'none':'block';
+  $('sbtns').style.display=saved.length?'flex':'none';
+}
+
+$('rows').addEventListener('click',e=>{const i=e.target.dataset.i;if(i!==undefined){saved.splice(+i,1);render();}});
+$('save').onclick=()=>{saved.push({fecha:today(),...cur});render();$('sum').scrollIntoView({behavior:'smooth',block:'center'});};
+$('clear').onclick=()=>{saved=[];render();};
+
+function makeImage(){
+  const W=1080, rh=72, head=150, foot=40, H=head+70+saved.length*rh+foot;
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d');
+  x.fillStyle='#fff'; x.fillRect(0,0,W,H);
+  x.fillStyle='#262626'; x.font='600 44px system-ui,sans-serif'; x.textAlign='left';
+  x.fillText('Resumen de pruebas · Cobre',40,80);
+  const cols=['Fecha','P. cobre','T.C.','Cu','CuSol','Ley cab.','S/ ton','Rent.'];
+  const w=[170,120,100,100,110,130,170,140]; let px=40; const xs=[];
+  w.forEach(v=>{xs.push(px);px+=v;});
+  const y0=head;
+  x.fillStyle='#fff59d'; x.fillRect(xs[6],y0,w[6]+w[7],70+saved.length*rh);
+  x.textAlign='center'; x.font='600 26px system-ui,sans-serif'; x.fillStyle='#8a8a86';
+  cols.forEach((t,i)=>x.fillText(t,xs[i]+w[i]/2,y0+45));
+  x.strokeStyle='#e6e6e3'; x.lineWidth=2;
+  x.beginPath(); x.moveTo(40,y0+70); x.lineTo(W-40,y0+70); x.stroke();
+  saved.forEach((r,ri)=>{
+    const y=y0+70+ri*rh;
+    cells(r).forEach((t,i)=>{
+      x.fillStyle='#262626'; x.font=(i>5?'700 ':'400 ')+'28px system-ui,sans-serif';
+      x.fillText(t,xs[i]+w[i]/2,y+46);
+    });
+    x.beginPath(); x.moveTo(40,y+rh); x.lineTo(W-40,y+rh); x.stroke();
+  });
+  return new Promise(res=>c.toBlob(res,'image/png'));
+}
+
+$('share').onclick=async()=>{
+  const blob=await makeImage();
+  const file=new File([blob],'resumen-cobre.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:'Resumen de pruebas'});return;}catch(e){if(e.name==='AbortError')return;}
+  }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resumen-cobre.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  alert('Tu navegador no permite compartir directo. Se descargó la imagen; envíala por WhatsApp desde tu galería.');
+};
+
+$('origen').addEventListener('change',()=>{$('lc').value=$('origen').value;calc();});
+$('lcr').addEventListener('input',()=>{lcrManual=$('lcr').value!=='';calc();});
+document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',calc));
+calc(); render();
+</script>
+</body>
+</html>

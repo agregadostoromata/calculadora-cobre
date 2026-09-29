@@ -97,7 +97,7 @@ details p{margin:6px 0}
 <div class="card" id="sum">
   <h2>Resumen de pruebas</h2>
   <table>
-    <thead><tr><th>Fecha</th><th>P. cobre</th><th>T.C.</th><th>Cu</th><th>CuSol</th><th>Ley cab.</th><th class="yy">S/ ton</th><th class="yy">Rent.</th><th></th></tr></thead>
+    <thead><tr><th>P. cobre</th><th>T.C.</th><th>Cu</th><th>CuSol</th><th>Ley cab.</th><th class="yy">S/ ton</th><th class="yy">Rent.</th><th></th></tr></thead>
     <tbody id="rows"></tbody>
   </table>
   <div class="empty" id="empty">Aún no hay pruebas guardadas</div>
@@ -154,19 +154,19 @@ function calc(){
 }
 
 function today(){const d=new Date();return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();}
-function cells(r){return [r.fecha,f(r.pc),f(r.tc),f(r.cu),r.cusol?f(r.cusol):'',f(r.lc),'S/ '+f(r.pton,0),f(r.rent)+'%'];}
+function cells(r){return [f(r.pc),f(r.tc),f(r.cu),r.cusol?f(r.cusol):'',f(r.lc),'S/ '+f(r.pton,0),f(r.rent)+'%'];}
 
 function render(){
   $('rows').innerHTML=saved.map((r,i)=>{
     const c=cells(r);
-    return '<tr>'+c.map((v,j)=>'<td'+(j>5?' class="yy"':'')+'>'+v+'</td>').join('')+'<td class="x" data-i="'+i+'">✕</td></tr>';
+    return '<tr>'+c.map((v,j)=>'<td'+(j>4?' class="yy"':'')+'>'+v+'</td>').join('')+'<td class="x" data-i="'+i+'">✕</td></tr>';
   }).join('');
   $('empty').style.display=saved.length?'none':'block';
   $('sbtns').style.display=saved.length?'flex':'none';
 }
 
 $('rows').addEventListener('click',e=>{const i=e.target.dataset.i;if(i!==undefined){saved.splice(+i,1);render();}});
-$('save').onclick=()=>{saved.push({fecha:today(),...cur});render();$('sum').scrollIntoView({behavior:'smooth',block:'center'});};
+$('save').onclick=()=>{saved.push({...cur});render();$('sum').scrollIntoView({behavior:'smooth',block:'center'});};
 $('clear').onclick=()=>{saved=[];render();};
 
 function makeImage(){
@@ -176,11 +176,11 @@ function makeImage(){
   x.fillStyle='#fff'; x.fillRect(0,0,W,H);
   x.fillStyle='#262626'; x.font='600 44px system-ui,sans-serif'; x.textAlign='left';
   x.fillText('Resumen de pruebas · Cobre',40,80);
-  const cols=['Fecha','P. cobre','T.C.','Cu','CuSol','Ley cab.','S/ ton','Rent.'];
-  const w=[170,120,100,100,110,130,170,140]; let px=40; const xs=[];
+  const cols=['P. cobre','T.C.','Cu','CuSol','Ley cab.','S/ ton','Rent.'];
+  const w=[140,120,120,140,150,190,140]; let px=40; const xs=[];
   w.forEach(v=>{xs.push(px);px+=v;});
   const y0=head;
-  x.fillStyle='#fff59d'; x.fillRect(xs[6],y0,w[6]+w[7],70+saved.length*rh);
+  x.fillStyle='#fff59d'; x.fillRect(xs[5],y0,w[5]+w[6],70+saved.length*rh);
   x.textAlign='center'; x.font='600 26px system-ui,sans-serif'; x.fillStyle='#8a8a86';
   cols.forEach((t,i)=>x.fillText(t,xs[i]+w[i]/2,y0+45));
   x.strokeStyle='#e6e6e3'; x.lineWidth=2;
@@ -188,7 +188,7 @@ function makeImage(){
   saved.forEach((r,ri)=>{
     const y=y0+70+ri*rh;
     cells(r).forEach((t,i)=>{
-      x.fillStyle='#262626'; x.font=(i>5?'700 ':'400 ')+'28px system-ui,sans-serif';
+      x.fillStyle='#262626'; x.font=(i>4?'700 ':'400 ')+'28px system-ui,sans-serif';
       x.fillText(t,xs[i]+w[i]/2,y+46);
     });
     x.beginPath(); x.moveTo(40,y+rh); x.lineTo(W-40,y+rh); x.stroke();

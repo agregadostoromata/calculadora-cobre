@@ -2,319 +2,1722 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- ICONO PARA iPHONE / iOS -->
+<link rel="apple-touch-icon" sizes="180x180" href="./icono.png">
+
+<!-- ICONO PARA NAVEGADORES -->
+<link rel="icon" type="image/png" sizes="192x192" href="./icono.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icono.png">
+
+<!-- CONFIGURACIÓN DE APP EN iPHONE -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calculadora Cobre">
+
+<meta name="theme-color" content="#101114">
 <meta name="color-scheme" content="light">
+
 <title>Calculadora de cobre</title>
+
 <style>
-:root{color-scheme:light;--bg:#f5f6f8;--card:#fff;--line:#eaecef;--txt:#1e2329;--mut:#707a8a;--g:#0ecb81;--a:#f0b90b;--r:#f6465d;--y:#fef6d8;--yb:#fcd535}
-*{box-sizing:border-box}
-html{scroll-padding-top:90px}
-body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-text-size-adjust:100%}
-main{max-width:520px;margin:0 auto;padding:0 12px 40px}
-#top{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(env(safe-area-inset-top,0px) + 8px) 0 8px}
-.bar{background:#181a20;color:#eaecef;border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.bar small{display:block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#848e9c}
-.bar b{font-size:22px;font-variant-numeric:tabular-nums;font-weight:700}
-.bar .rt{text-align:right}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#848e9c;margin-right:6px}
-#st{font-size:12px;margin-top:6px;color:var(--mut);padding:0 4px;min-height:16px}
-h1{font-size:15px;font-weight:600;margin:6px 2px 10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
-h2{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);font-weight:600;margin:0 0 8px}
-.g{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px}
-.f label,.f .l{display:block;font-size:11px;color:var(--mut);margin-bottom:3px}
-.f input,.f select{width:100%;height:44px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:#f7f8fa;color:var(--txt);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
-.f select{background-image:linear-gradient(45deg,transparent 50%,#9ca3af 50%),linear-gradient(135deg,#9ca3af 50%,transparent 50%);background-position:calc(100% - 17px) 19px,calc(100% - 12px) 19px;background-size:5px 5px;background-repeat:no-repeat;padding-right:28px}
-.f input:focus,.f select:focus{outline:2px solid var(--yb);border-color:transparent;background:#fff}
-.f input:disabled{color:var(--mut);background:#f0f0f0}
-.f .c{height:44px;display:flex;align-items:center;padding:0 10px;border-radius:10px;background:#f0f2f5;color:#474d57;font-size:16px;font-variant-numeric:tabular-nums}
-.hint{grid-column:1/-1;font-size:12px;color:var(--mut);margin-top:-4px}
-.r{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-.r:last-of-type{border-bottom:0}
-.r.b{font-weight:600}
-.y{background:var(--y);border:1px solid var(--yb);border-radius:10px;padding:9px 12px;margin-top:6px;display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
-.mx{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:8px;font-variant-numeric:tabular-nums}
-.mx .h{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-bottom:4px}
-.mx .r{padding:4px 0}
-.warn{margin-top:8px;padding:8px 12px;border-radius:10px;background:#fef6d8;border:1px solid #fcd535;color:#7a5d00;font-size:12px;display:none}
-.btns{display:flex;gap:8px;margin-top:10px}
-button{flex:1;height:46px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--txt);font:inherit;font-weight:600;cursor:pointer;touch-action:manipulation}
-button.p{background:var(--yb);color:#181a20;border-color:var(--yb)}
-button.wa{background:#181a20;border-color:#181a20;color:#fff}
-button:disabled{opacity:.35;cursor:not-allowed}
-button:active:not(:disabled){opacity:.7}
-table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
-th{font-size:9.5px;color:var(--mut);font-weight:600;text-align:center;padding:4px 2px;border-bottom:1px solid var(--line)}
-td{text-align:center;padding:8px 2px;border-bottom:1px solid var(--line)}
-td.yy,th.yy{background:var(--y);font-weight:700}
-td.x{width:44px;color:var(--mut);cursor:pointer;font-size:18px;padding:0}
-.empty{color:var(--mut);text-align:center;padding:14px 0;font-size:13px}
-details{color:var(--mut);font-size:12px}
-summary{cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.12em;padding:6px 0}
-details table td{text-align:left;padding:3px 0}
-details table td:last-child{text-align:right}
-details p{margin:6px 0}
+:root{
+  color-scheme:light;
+  --bg:#f5f6f8;
+  --card:#fff;
+  --line:#eaecef;
+  --txt:#1e2329;
+  --mut:#707a8a;
+  --g:#0ecb81;
+  --a:#f0b90b;
+  --r:#f6465d;
+  --y:#fef6d8;
+  --yb:#fcd535
+}
+
+*{
+  box-sizing:border-box
+}
+
+html{
+  scroll-padding-top:90px
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--txt);
+  font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  -webkit-text-size-adjust:100%
+}
+
+main{
+  max-width:520px;
+  margin:0 auto;
+  padding:0 12px 40px
+}
+
+#top{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:var(--bg);
+  padding:calc(env(safe-area-inset-top,0px) + 8px) 0 8px
+}
+
+.bar{
+  background:#181a20;
+  color:#eaecef;
+  border-radius:14px;
+  padding:10px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px
+}
+
+.bar small{
+  display:block;
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#848e9c
+}
+
+.bar b{
+  font-size:22px;
+  font-variant-numeric:tabular-nums;
+  font-weight:700
+}
+
+.bar .rt{
+  text-align:right
+}
+
+.dot{
+  display:inline-block;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#848e9c;
+  margin-right:6px
+}
+
+#st{
+  font-size:12px;
+  margin-top:6px;
+  color:var(--mut);
+  padding:0 4px;
+  min-height:16px
+}
+
+h1{
+  font-size:15px;
+  font-weight:600;
+  margin:6px 2px 10px
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:12px
+}
+
+h2{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--mut);
+  font-weight:600;
+  margin:0 0 8px
+}
+
+.g{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px 8px
+}
+
+.f label,
+.f .l{
+  display:block;
+  font-size:11px;
+  color:var(--mut);
+  margin-bottom:3px
+}
+
+.f input,
+.f select{
+  width:100%;
+  height:44px;
+  padding:0 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#f7f8fa;
+  color:var(--txt);
+  font:inherit;
+  font-size:16px;
+  -webkit-appearance:none;
+  appearance:none
+}
+
+.f select{
+  background-image:
+    linear-gradient(45deg,transparent 50%,#9ca3af 50%),
+    linear-gradient(135deg,#9ca3af 50%,transparent 50%);
+  background-position:
+    calc(100% - 17px) 19px,
+    calc(100% - 12px) 19px;
+  background-size:5px 5px;
+  background-repeat:no-repeat;
+  padding-right:28px
+}
+
+.f input:focus,
+.f select:focus{
+  outline:2px solid var(--yb);
+  border-color:transparent;
+  background:#fff
+}
+
+.f input:disabled{
+  color:var(--mut);
+  background:#f0f0f0
+}
+
+.f .c{
+  height:44px;
+  display:flex;
+  align-items:center;
+  padding:0 10px;
+  border-radius:10px;
+  background:#f0f2f5;
+  color:#474d57;
+  font-size:16px;
+  font-variant-numeric:tabular-nums
+}
+
+.hint{
+  grid-column:1/-1;
+  font-size:12px;
+  color:var(--mut);
+  margin-top:-4px
+}
+
+.r{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums
+}
+
+.r:last-of-type{
+  border-bottom:0
+}
+
+.r.b{
+  font-weight:600
+}
+
+.y{
+  background:var(--y);
+  border:1px solid var(--yb);
+  border-radius:10px;
+  padding:9px 12px;
+  margin-top:6px;
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+  font-variant-numeric:tabular-nums
+}
+
+.mx{
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:8px 12px;
+  margin-top:8px;
+  font-variant-numeric:tabular-nums
+}
+
+.mx .h{
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--mut);
+  margin-bottom:4px
+}
+
+.mx .r{
+  padding:4px 0
+}
+
+.warn{
+  margin-top:8px;
+  padding:8px 12px;
+  border-radius:10px;
+  background:#fef6d8;
+  border:1px solid #fcd535;
+  color:#7a5d00;
+  font-size:12px;
+  display:none
+}
+
+.btns{
+  display:flex;
+  gap:8px;
+  margin-top:10px
+}
+
+button{
+  flex:1;
+  height:46px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--txt);
+  font:inherit;
+  font-weight:600;
+  cursor:pointer;
+  touch-action:manipulation
+}
+
+button.p{
+  background:var(--yb);
+  color:#181a20;
+  border-color:var(--yb)
+}
+
+button.wa{
+  background:#181a20;
+  border-color:#181a20;
+  color:#fff
+}
+
+button:disabled{
+  opacity:.35;
+  cursor:not-allowed
+}
+
+button:active:not(:disabled){
+  opacity:.7
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  font-variant-numeric:tabular-nums
+}
+
+th{
+  font-size:9.5px;
+  color:var(--mut);
+  font-weight:600;
+  text-align:center;
+  padding:4px 2px;
+  border-bottom:1px solid var(--line)
+}
+
+td{
+  text-align:center;
+  padding:8px 2px;
+  border-bottom:1px solid var(--line)
+}
+
+td.yy,
+th.yy{
+  background:var(--y);
+  font-weight:700
+}
+
+td.x{
+  width:44px;
+  color:var(--mut);
+  cursor:pointer;
+  font-size:18px;
+  padding:0
+}
+
+.empty{
+  color:var(--mut);
+  text-align:center;
+  padding:14px 0;
+  font-size:13px
+}
+
+details{
+  color:var(--mut);
+  font-size:12px
+}
+
+summary{
+  cursor:pointer;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  padding:6px 0
+}
+
+details table td{
+  text-align:left;
+  padding:3px 0
+}
+
+details table td:last-child{
+  text-align:right
+}
+
+details p{
+  margin:6px 0
+}
 </style>
 </head>
+
 <body>
+
 <main>
+
 <div id="top">
+
   <div class="bar">
-    <div><small>Precio de compra / ton</small><b id="bTon">–</b></div>
-    <div class="rt"><small>Rentabilidad</small><b><span class="dot" id="dot"></span><span id="bRent">–</span></b></div>
+
+    <div>
+      <small>Precio de compra / ton</small>
+      <b id="bTon">–</b>
+    </div>
+
+    <div class="rt">
+      <small>Rentabilidad</small>
+      <b>
+        <span class="dot" id="dot"></span>
+        <span id="bRent">–</span>
+      </b>
+    </div>
+
   </div>
-  <div id="st">Completa los datos</div>
+
+  <div id="st">
+    Completa los datos
+  </div>
+
 </div>
+
 
 <h1>Calculadora de precio · Cobre</h1>
 
+
 <div class="card">
+
   <h2>Leyes</h2>
+
   <div class="g">
-    <div class="f"><label for="origen">Origen</label>
-      <select id="origen"><option value="">Seleccionar</option><option value="Pamputa">Pamputa</option><option value="Vilcabamba">Vilcabamba</option><option value="Santa Rosa">Santa Rosa</option></select></div>
-    <div class="f"><label for="lc">Ley de concentrado</label><input id="lc" type="text" inputmode="decimal"></div>
+
+    <div class="f">
+      <label for="origen">Origen</label>
+
+      <select id="origen">
+        <option value="">Seleccionar</option>
+        <option value="Pamputa">Pamputa</option>
+        <option value="Vilcabamba">Vilcabamba</option>
+        <option value="Santa Rosa">Santa Rosa</option>
+      </select>
+    </div>
+
+
+    <div class="f">
+      <label for="lc">Ley de concentrado</label>
+      <input id="lc" type="text" inputmode="decimal">
+    </div>
+
+
     <div class="hint" id="hint" style="display:none"></div>
-    <div class="f"><label for="cu">Cu (%)</label><input id="cu" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="cusol">CuSol (%)</label><input id="cusol" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="merma">Merma - molido</label><input id="merma" type="text" inputmode="decimal" value="0.2"></div>
-    <div class="f"><span class="l">Ley de cabeza</span><div class="c" id="lcab">–</div></div>
-    <div class="f"><label for="lcr">Ley cabeza redondeada</label><input id="lcr" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="ton">Mineral bruto (ton)</label><input id="ton" type="text" inputmode="decimal" value="100"></div>
-    <div class="f"><label for="rec">Recuperación (%)</label><input id="rec" type="text" inputmode="decimal" value="90"></div>
-    <div class="f"><span class="l">Concentrado seco (ton)</span><div class="c" id="cseco">–</div></div>
+
+
+    <div class="f">
+      <label for="cu">Cu (%)</label>
+      <input id="cu" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="cusol">CuSol (%)</label>
+      <input id="cusol" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="merma">Merma - molido</label>
+      <input id="merma" type="text" inputmode="decimal" value="0.2">
+    </div>
+
+
+    <div class="f">
+      <span class="l">Ley de cabeza</span>
+      <div class="c" id="lcab">–</div>
+    </div>
+
+
+    <div class="f">
+      <label for="lcr">Ley cabeza redondeada</label>
+      <input id="lcr" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="ton">Mineral bruto (ton)</label>
+      <input id="ton" type="text" inputmode="decimal" value="100">
+    </div>
+
+
+    <div class="f">
+      <label for="rec">Recuperación (%)</label>
+      <input id="rec" type="text" inputmode="decimal" value="90">
+    </div>
+
+
+    <div class="f">
+      <span class="l">Concentrado seco (ton)</span>
+      <div class="c" id="cseco">–</div>
+    </div>
+
   </div>
+
   <div class="warn" id="warn"></div>
+
 </div>
 
+
 <div class="card">
+
   <h2>Compra</h2>
+
   <div class="g">
-    <div class="f"><label for="pint">Precio internacional</label><input id="pint" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="prot">Protección</label><input id="prot" type="text" inputmode="decimal" value="0.1"></div>
-    <div class="f"><span class="l">Precio protegido</span><div class="c" id="pprot">–</div></div>
-    <div class="f"><label for="tc">Tipo de cambio</label><input id="tc" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="pkg">Compra por kg (US$)</label><input id="pkg" type="text" inputmode="decimal"></div>
-    <div class="f"><label for="lugar">Lugar de compra</label>
-      <select id="lugar"><option value="">Seleccionar</option><option value="0">Mina</option><option value="0.18">Pachachaca</option><option value="0.33">Nazca</option></select></div>
+
+    <div class="f">
+      <label for="pint">Precio internacional</label>
+      <input id="pint" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="prot">Protección</label>
+      <input id="prot" type="text" inputmode="decimal" value="0.1">
+    </div>
+
+
+    <div class="f">
+      <span class="l">Precio protegido</span>
+      <div class="c" id="pprot">–</div>
+    </div>
+
+
+    <div class="f">
+      <label for="tc">Tipo de cambio</label>
+      <input id="tc" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="pkg">Compra por kg (US$)</label>
+      <input id="pkg" type="text" inputmode="decimal">
+    </div>
+
+
+    <div class="f">
+      <label for="lugar">Lugar de compra</label>
+
+      <select id="lugar">
+        <option value="">Seleccionar</option>
+        <option value="0">Mina</option>
+        <option value="0.18">Pachachaca</option>
+        <option value="0.33">Nazca</option>
+      </select>
+
+    </div>
+
   </div>
+
 </div>
 
+
 <div class="card">
+
   <h2>Resultados</h2>
-  <div class="r"><span>Precio TMS</span><span id="ptms">–</span></div>
-  <div class="r"><span>Dsctos. maquila</span><span id="maq">–</span></div>
-  <div class="r b"><span>Neto TMS</span><span id="neto">–</span></div>
-  <div class="r"><span>Inversión mineral</span><span id="imin">–</span></div>
-  <div class="r"><span>Inversión adicional</span><span id="iadi">–</span></div>
-  <div class="r b"><span>Total inversión</span><span id="itot">–</span></div>
-  <div class="r b"><span>Venta total</span><span id="vtot">–</span></div>
-  <div class="r"><span>Inversión x kilo</span><span id="ikg">–</span></div>
-  <div class="r"><span>Venta x kilo</span><span id="vkg">–</span></div>
-  <div class="r"><span>Utilidad x kilo</span><span id="ukg">–</span></div>
-  <div class="r b"><span>Utilidad x TM bruto</span><span id="utm">–</span></div>
-  <div class="y"><span>Rentabilidad</span><span id="rent">–</span></div>
-  <div class="y"><span>Precio de compra por kg</span><span id="pfin">–</span></div>
-  <div class="y"><span>Precio de compra por ton</span><span id="pton">–</span></div>
-  <div class="mx">
-    <div class="h">Precio máximo de compra</div>
-    <div class="r"><span>Para 8%</span><span id="m8">–</span></div>
-    <div class="r"><span>Para 5%</span><span id="m5">–</span></div>
+
+  <div class="r">
+    <span>Precio TMS</span>
+    <span id="ptms">–</span>
   </div>
-  <div class="btns"><button class="p" id="save" disabled>+ Guardar prueba</button></div>
+
+  <div class="r">
+    <span>Dsctos. maquila</span>
+    <span id="maq">–</span>
+  </div>
+
+  <div class="r b">
+    <span>Neto TMS</span>
+    <span id="neto">–</span>
+  </div>
+
+  <div class="r">
+    <span>Inversión mineral</span>
+    <span id="imin">–</span>
+  </div>
+
+  <div class="r">
+    <span>Inversión adicional</span>
+    <span id="iadi">–</span>
+  </div>
+
+  <div class="r b">
+    <span>Total inversión</span>
+    <span id="itot">–</span>
+  </div>
+
+  <div class="r b">
+    <span>Venta total</span>
+    <span id="vtot">–</span>
+  </div>
+
+  <div class="r">
+    <span>Inversión x kilo</span>
+    <span id="ikg">–</span>
+  </div>
+
+  <div class="r">
+    <span>Venta x kilo</span>
+    <span id="vkg">–</span>
+  </div>
+
+  <div class="r">
+    <span>Utilidad x kilo</span>
+    <span id="ukg">–</span>
+  </div>
+
+  <div class="r b">
+    <span>Utilidad x TM bruto</span>
+    <span id="utm">–</span>
+  </div>
+
+  <div class="y">
+    <span>Rentabilidad</span>
+    <span id="rent">–</span>
+  </div>
+
+  <div class="y">
+    <span>Precio de compra por kg</span>
+    <span id="pfin">–</span>
+  </div>
+
+  <div class="y">
+    <span>Precio de compra por ton</span>
+    <span id="pton">–</span>
+  </div>
+
+
+  <div class="mx">
+
+    <div class="h">
+      Precio máximo de compra
+    </div>
+
+    <div class="r">
+      <span>Para 8%</span>
+      <span id="m8">–</span>
+    </div>
+
+    <div class="r">
+      <span>Para 5%</span>
+      <span id="m5">–</span>
+    </div>
+
+  </div>
+
+
+  <div class="btns">
+    <button class="p" id="save" disabled>
+      + Guardar prueba
+    </button>
+  </div>
+
 </div>
+
 
 <div class="card" id="sum">
+
   <h2>Resumen de pruebas</h2>
+
   <table>
-    <thead><tr><th>P. cobre</th><th>T.C.</th><th>Cu</th><th>CuSol</th><th>Ley cab.</th><th class="yy">S/ ton</th><th class="yy">Rent.</th><th></th></tr></thead>
+
+    <thead>
+
+      <tr>
+        <th>P. cobre</th>
+        <th>T.C.</th>
+        <th>Cu</th>
+        <th>CuSol</th>
+        <th>Ley cab.</th>
+        <th class="yy">S/ ton</th>
+        <th class="yy">Rent.</th>
+        <th></th>
+      </tr>
+
+    </thead>
+
     <tbody id="rows"></tbody>
+
   </table>
-  <div class="empty" id="empty">Aún no hay pruebas guardadas</div>
-  <div class="btns" id="sbtns">
-    <button class="wa" id="share">Compartir imagen</button>
-    <button id="clear">Limpiar</button>
+
+
+  <div class="empty" id="empty">
+    Aún no hay pruebas guardadas
   </div>
+
+
+  <div class="btns" id="sbtns">
+
+    <button class="wa" id="share">
+      Compartir imagen
+    </button>
+
+    <button id="clear">
+      Limpiar
+    </button>
+
+  </div>
+
 </div>
 
+
 <div class="card">
+
   <details>
-    <summary>Datos de referencia</summary>
-    <p>Restar a la ley de cabeza</p>
-    <table><tr><td>Ley mayor a 2.5</td><td>0.2</td></tr><tr><td>Ley mayor a 3</td><td>0.3</td></tr></table>
-    <p>Ley de concentrado por origen</p>
-    <table><tr><td>Pamputa (24.5)</td><td>24.3</td></tr><tr><td>Vilcabamba (26 - 27)</td><td>26</td></tr><tr><td>Santa Rosa (28 - 29)</td><td>28</td></tr></table>
-    <p>Adición por lugar de compra</p>
-    <table><tr><td>Mina</td><td>0</td></tr><tr><td>Pachachaca</td><td>0.18</td></tr><tr><td>Nazca</td><td>0.33</td></tr></table>
-    <p>Primero rentabilidad 8%, bajar máximo a 5%.</p>
-    <p>Si son 100 tn para arriba, puedo jugar entre 5% y 8%.</p>
-    <p>Si son menos de 100 tn, mantenerme en 8%.</p>
+
+    <summary>
+      Datos de referencia
+    </summary>
+
+    <p>
+      Restar a la ley de cabeza
+    </p>
+
+    <table>
+      <tr>
+        <td>Ley mayor a 2.5</td>
+        <td>0.2</td>
+      </tr>
+
+      <tr>
+        <td>Ley mayor a 3</td>
+        <td>0.3</td>
+      </tr>
+    </table>
+
+
+    <p>
+      Ley de concentrado por origen
+    </p>
+
+    <table>
+      <tr>
+        <td>Pamputa (24.5)</td>
+        <td>24.3</td>
+      </tr>
+
+      <tr>
+        <td>Vilcabamba (26 - 27)</td>
+        <td>26</td>
+      </tr>
+
+      <tr>
+        <td>Santa Rosa (28 - 29)</td>
+        <td>28</td>
+      </tr>
+    </table>
+
+
+    <p>
+      Adición por lugar de compra
+    </p>
+
+    <table>
+
+      <tr>
+        <td>Mina</td>
+        <td>0</td>
+      </tr>
+
+      <tr>
+        <td>Pachachaca</td>
+        <td>0.18</td>
+      </tr>
+
+      <tr>
+        <td>Nazca</td>
+        <td>0.33</td>
+      </tr>
+
+    </table>
+
+
+    <p>
+      Primero rentabilidad 8%, bajar máximo a 5%.
+    </p>
+
+    <p>
+      Si son 100 tn para arriba, puedo jugar entre 5% y 8%.
+    </p>
+
+    <p>
+      Si son menos de 100 tn, mantenerme en 8%.
+    </p>
+
   </details>
+
 </div>
 
+
 <div class="card">
+
   <details>
-    <summary>Parámetros</summary>
+
+    <summary>
+      Parámetros
+    </summary>
+
     <div class="g" style="margin-top:8px">
-      <div class="f"><label for="pd">Descuento ley (1.4)</label><input id="pd" type="text" inputmode="decimal" value="1.4" disabled></div>
-      <div class="f"><label for="lb">Libras por TM</label><input id="lb" type="text" inputmode="decimal" value="2204.62" disabled></div>
-      <div class="f"><label for="dp">Descuento precio</label><input id="dp" type="text" inputmode="decimal" value="0.06" disabled></div>
-      <div class="f"><label for="mp">Maquila (%)</label><input id="mp" type="text" inputmode="decimal" value="0.15" disabled></div>
-      <div class="f"><label for="mf">Maquila fija</label><input id="mf" type="text" inputmode="decimal" value="150" disabled></div>
-      <div class="f"><label for="ad">Costo adicional por kg</label><input id="ad" type="text" inputmode="decimal" value="0.48" disabled></div>
+
+      <div class="f">
+        <label for="pd">Descuento ley (1.4)</label>
+        <input id="pd" type="text" inputmode="decimal" value="1.4" disabled>
+      </div>
+
+      <div class="f">
+        <label for="lb">Libras por TM</label>
+        <input id="lb" type="text" inputmode="decimal" value="2204.62" disabled>
+      </div>
+
+      <div class="f">
+        <label for="dp">Descuento precio</label>
+        <input id="dp" type="text" inputmode="decimal" value="0.06" disabled>
+      </div>
+
+      <div class="f">
+        <label for="mp">Maquila (%)</label>
+        <input id="mp" type="text" inputmode="decimal" value="0.15" disabled>
+      </div>
+
+      <div class="f">
+        <label for="mf">Maquila fija</label>
+        <input id="mf" type="text" inputmode="decimal" value="150" disabled>
+      </div>
+
+      <div class="f">
+        <label for="ad">Costo adicional por kg</label>
+        <input id="ad" type="text" inputmode="decimal" value="0.48" disabled>
+      </div>
+
     </div>
-    <div class="btns"><button id="pedit">Editar parámetros</button></div>
+
+
+    <div class="btns">
+      <button id="pedit">
+        Editar parámetros
+      </button>
+    </div>
+
   </details>
+
 </div>
+
 </main>
 
+
 <script>
+
 const $=id=>document.getElementById(id);
-const num=id=>{const s=$(id).value.trim().replace(',','.');return s===''?NaN:parseFloat(s)};
-const n=id=>{const v=num(id);return isNaN(v)?0:v};
-const f=(x,d=2)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+const num=id=>{
+  const s=$(id).value.trim().replace(',','.');
+  return s===''?NaN:parseFloat(s)
+};
+
+const n=id=>{
+  const v=num(id);
+  return isNaN(v)?0:v
+};
+
+const f=(x,d=2)=>
+  x.toLocaleString('en-US',{
+    minimumFractionDigits:d,
+    maximumFractionDigits:d
+  });
+
 const usd=x=>'$ '+f(x);
-const DEF={pd:1.4,lb:2204.62,dp:0.06,mp:0.15,mf:150,ad:0.48};
-const P=k=>{const v=num(k);return isNaN(v)?DEF[k]:v};
-const RNG={'Pamputa':['24.5',24.3],'Vilcabamba':['26 – 27',26],'Santa Rosa':['28 – 29',28]};
-const REQ=['cu','lc','ton','rec','pint','tc','pkg'];
-let lcrManual=false, cur=null, saved=[];
-const dash=['ptms','maq','neto','imin','iadi','itot','vtot','ikg','vkg','ukg','utm','rent','pfin','pton','m8','m5'];
+
+const DEF={
+  pd:1.4,
+  lb:2204.62,
+  dp:0.06,
+  mp:0.15,
+  mf:150,
+  ad:0.48
+};
+
+const P=k=>{
+  const v=num(k);
+  return isNaN(v)?DEF[k]:v
+};
+
+const RNG={
+  'Pamputa':['24.5',24.3],
+  'Vilcabamba':['26 – 27',26],
+  'Santa Rosa':['28 – 29',28]
+};
+
+const REQ=[
+  'cu',
+  'lc',
+  'ton',
+  'rec',
+  'pint',
+  'tc',
+  'pkg'
+];
+
+let lcrManual=false;
+let cur=null;
+let saved=[];
+
+const dash=[
+  'ptms',
+  'maq',
+  'neto',
+  'imin',
+  'iadi',
+  'itot',
+  'vtot',
+  'ikg',
+  'vkg',
+  'ukg',
+  'utm',
+  'rent',
+  'pfin',
+  'pton',
+  'm8',
+  'm5'
+];
+
 
 function calc(){
-  const hasCu=!isNaN(num('cu'));
-  const lcab=n('cu')-n('cusol')-n('merma');
-  $('lcab').textContent=hasCu?f(lcab):'–';
-  if(!lcrManual) $('lcr').value=hasCu?(Math.round(lcab*10)/10).toFixed(2):'';
-  // avisos Cu
-  const cu=n('cu'), w=$('warn');
-  if(cu>3){w.textContent='Cu mayor a 3: regla de restar 0.3 a la ley de cabeza.';w.style.display='block';}
-  else if(cu>2.5){w.textContent='Cu mayor a 2.5: regla de restar 0.2 a la ley de cabeza.';w.style.display='block';}
-  else w.style.display='none';
 
-  // parciales: se calculan apenas hay datos
-  const okC=hasCu&&n('lc')>0&&!isNaN(num('ton'))&&!isNaN(num('rec'))&&n('lcr')>0;
-  $('cseco').textContent=okC?f(n('ton')*(n('lcr')/100)*(n('rec')/100)/(n('lc')/100)):'–';
-  $('pprot').textContent=!isNaN(num('pint'))?f(n('pint')-n('prot')):'–';
-  const ok=REQ.every(k=>!isNaN(num(k)))&&$('lugar').value!==''&&n('lc')>0&&n('ton')>0&&n('tc')>0;
-  $('save').disabled=!ok;
-  if(!ok){
-    dash.forEach(k=>$(k).textContent='–');
-    $('bTon').textContent='–';$('bRent').textContent='–';$('dot').style.background='#848e9c';
-    $('st').textContent='Completa los datos';$('st').style.color='var(--mut)';
-    cur=null;return;
+  const hasCu=!isNaN(num('cu'));
+
+  const lcab=
+    n('cu')-
+    n('cusol')-
+    n('merma');
+
+  $('lcab').textContent=
+    hasCu?f(lcab):'–';
+
+  if(!lcrManual){
+    $('lcr').value=
+      hasCu?
+      (Math.round(lcab*10)/10).toFixed(2):
+      '';
   }
-  const lcr=n('lcr'), lc=n('lc'), ton=n('ton'), tc=n('tc'), lug=n('lugar');
-  const cseco=ton*(lcr/100)*(n('rec')/100)/(lc/100);
-  const pprot=n('pint')-n('prot');
-  const base=((lc-P('pd'))/100)*P('lb');
-  const ptms=base*(pprot-P('dp')), maq=base*P('mp')+P('mf'), neto=ptms-maq;
-  const imin=ton*(n('pkg')/tc)*1000, iadi=ton*(P('ad')/tc)*1000, itot=imin+iadi;
-  const vtot=cseco*neto, kg=ton*1000;
-  const ikg=itot/kg, vkg=vtot/kg, ukg=vkg-ikg, utm=ukg*1000*ton;
-  const rent=itot?utm/itot:0, pfin=n('pkg')+lug;
-  const mx=r=>vtot*tc/((1+r)*ton*1000)-P('ad')+lug;
-  $('cseco').textContent=f(cseco);$('pprot').textContent=f(pprot);
-  $('ptms').textContent=usd(ptms);$('maq').textContent=usd(maq);$('neto').textContent=usd(neto);
-  $('imin').textContent=usd(imin);$('iadi').textContent=usd(iadi);$('itot').textContent=usd(itot);
-  $('vtot').textContent=usd(vtot);$('ikg').textContent=f(ikg,4);$('vkg').textContent=f(vkg,4);
-  $('ukg').textContent=f(ukg,4);$('utm').textContent=usd(utm);
-  $('rent').textContent=f(rent*100)+'%';$('pfin').textContent=f(pfin);$('pton').textContent='S/ '+f(pfin*1000);
-  const m8=mx(.08), m5=mx(.05);
-  $('m8').textContent='S/ '+f(m8)+' kg · S/ '+f(m8*1000,0)+' ton';
-  $('m5').textContent='S/ '+f(m5)+' kg · S/ '+f(m5*1000,0)+' ton';
-  // semáforo
-  const r=rent*100; let col,msg;
-  if(r>=8){col='var(--g)';msg='En objetivo (8% o más)';}
-  else if(ton>=100&&r>=5){col='var(--a)';msg='Rango permitido 5–8% (100 tn o más)';}
-  else if(ton<100){col='var(--r)';msg='Menos de 100 tn: mantener 8%';}
-  else{col='var(--r)';msg='Fuera de regla: menos de 5%';}
-  $('bTon').textContent='S/ '+f(pfin*1000);$('bRent').textContent=f(r)+'%';
-  $('dot').style.background=col;$('st').textContent=msg;$('st').style.color=col;
-  cur={pc:n('pint'),tc:tc,cu:cu,cusol:n('cusol'),lc:lcr,pton:pfin*1000,rent:r};
+
+
+  const cu=n('cu');
+  const w=$('warn');
+
+
+  if(cu>3){
+
+    w.textContent=
+      'Cu mayor a 3: regla de restar 0.3 a la ley de cabeza.';
+
+    w.style.display='block';
+
+  }else if(cu>2.5){
+
+    w.textContent=
+      'Cu mayor a 2.5: regla de restar 0.2 a la ley de cabeza.';
+
+    w.style.display='block';
+
+  }else{
+
+    w.style.display='none';
+
+  }
+
+
+  const okC=
+    hasCu &&
+    n('lc')>0 &&
+    !isNaN(num('ton')) &&
+    !isNaN(num('rec')) &&
+    n('lcr')>0;
+
+
+  $('cseco').textContent=
+    okC?
+    f(
+      n('ton')*
+      (n('lcr')/100)*
+      (n('rec')/100)/
+      (n('lc')/100)
+    ):
+    '–';
+
+
+  $('pprot').textContent=
+    !isNaN(num('pint'))?
+    f(n('pint')-n('prot')):
+    '–';
+
+
+  const ok=
+    REQ.every(k=>!isNaN(num(k))) &&
+    $('lugar').value!=='' &&
+    n('lc')>0 &&
+    n('ton')>0 &&
+    n('tc')>0;
+
+
+  $('save').disabled=!ok;
+
+
+  if(!ok){
+
+    dash.forEach(k=>
+      $(k).textContent='–'
+    );
+
+    $('bTon').textContent='–';
+    $('bRent').textContent='–';
+
+    $('dot').style.background='#848e9c';
+
+    $('st').textContent=
+      'Completa los datos';
+
+    $('st').style.color=
+      'var(--mut)';
+
+    cur=null;
+
+    return;
+  }
+
+
+  const lcr=n('lcr');
+  const lc=n('lc');
+  const ton=n('ton');
+  const tc=n('tc');
+  const lug=n('lugar');
+
+
+  const cseco=
+    ton*
+    (lcr/100)*
+    (n('rec')/100)/
+    (lc/100);
+
+
+  const pprot=
+    n('pint')-
+    n('prot');
+
+
+  const base=
+    ((lc-P('pd'))/100)*
+    P('lb');
+
+
+  const ptms=
+    base*
+    (pprot-P('dp'));
+
+  const maq=
+    base*
+    P('mp')+
+    P('mf');
+
+  const neto=
+    ptms-maq;
+
+
+  const imin=
+    ton*
+    (n('pkg')/tc)*
+    1000;
+
+  const iadi=
+    ton*
+    (P('ad')/tc)*
+    1000;
+
+  const itot=
+    imin+iadi;
+
+
+  const vtot=
+    cseco*
+    neto;
+
+  const kg=
+    ton*
+    1000;
+
+
+  const ikg=
+    itot/kg;
+
+  const vkg=
+    vtot/kg;
+
+  const ukg=
+    vkg-ikg;
+
+  const utm=
+    ukg*
+    1000*
+    ton;
+
+
+  const rent=
+    itot?
+    utm/itot:
+    0;
+
+
+  const pfin=
+    n('pkg')+
+    lug;
+
+
+  const mx=r=>
+    vtot*
+    tc/
+    ((1+r)*
+    ton*
+    1000)-
+    P('ad')+
+    lug;
+
+
+  $('cseco').textContent=f(cseco);
+  $('pprot').textContent=f(pprot);
+
+  $('ptms').textContent=usd(ptms);
+  $('maq').textContent=usd(maq);
+  $('neto').textContent=usd(neto);
+
+  $('imin').textContent=usd(imin);
+  $('iadi').textContent=usd(iadi);
+  $('itot').textContent=usd(itot);
+
+  $('vtot').textContent=usd(vtot);
+
+  $('ikg').textContent=f(ikg,4);
+  $('vkg').textContent=f(vkg,4);
+  $('ukg').textContent=f(ukg,4);
+
+  $('utm').textContent=usd(utm);
+
+  $('rent').textContent=
+    f(rent*100)+'%';
+
+  $('pfin').textContent=
+    f(pfin);
+
+  $('pton').textContent=
+    'S/ '+f(pfin*1000);
+
+
+  const m8=mx(.08);
+  const m5=mx(.05);
+
+
+  $('m8').textContent=
+    'S/ '+f(m8)+
+    ' kg · S/ '+
+    f(m8*1000,0)+
+    ' ton';
+
+  $('m5').textContent=
+    'S/ '+f(m5)+
+    ' kg · S/ '+
+    f(m5*1000,0)+
+    ' ton';
+
+
+  const r=rent*100;
+
+  let col,msg;
+
+
+  if(r>=8){
+
+    col='var(--g)';
+    msg='En objetivo (8% o más)';
+
+  }else if(ton>=100&&r>=5){
+
+    col='var(--a)';
+    msg='Rango permitido 5–8% (100 tn o más)';
+
+  }else if(ton<100){
+
+    col='var(--r)';
+    msg='Menos de 100 tn: mantener 8%';
+
+  }else{
+
+    col='var(--r)';
+    msg='Fuera de regla: menos de 5%';
+
+  }
+
+
+  $('bTon').textContent=
+    'S/ '+f(pfin*1000);
+
+  $('bRent').textContent=
+    f(r)+'%';
+
+  $('dot').style.background=col;
+
+  $('st').textContent=msg;
+  $('st').style.color=col;
+
+
+  cur={
+    pc:n('pint'),
+    tc:tc,
+    cu:cu,
+    cusol:n('cusol'),
+    lc:lcr,
+    pton:pfin*1000,
+    rent:r
+  };
+
 }
 
-function cells(r){return [f(r.pc),f(r.tc),f(r.cu),r.cusol?f(r.cusol):'',f(r.lc),'S/ '+f(r.pton,0),f(r.rent)+'%'];}
+
+function cells(r){
+
+  return [
+    f(r.pc),
+    f(r.tc),
+    f(r.cu),
+    r.cusol?f(r.cusol):'',
+    f(r.lc),
+    'S/ '+f(r.pton,0),
+    f(r.rent)+'%'
+  ];
+
+}
+
 
 function render(){
-  $('rows').innerHTML=saved.map((r,i)=>{
-    const c=cells(r);
-    return '<tr>'+c.map((v,j)=>'<td'+(j>4?' class="yy"':'')+'>'+v+'</td>').join('')+'<td class="x" data-i="'+i+'">✕</td></tr>';
-  }).join('');
-  $('empty').style.display=saved.length?'none':'block';
-  $('sbtns').style.display=saved.length?'flex':'none';
+
+  $('rows').innerHTML=
+    saved.map((r,i)=>{
+
+      const c=cells(r);
+
+      return '<tr>'+
+        c.map((v,j)=>
+          '<td'+
+          (j>4?' class="yy"':'')+
+          '>'+v+'</td>'
+        ).join('')+
+        '<td class="x" data-i="'+i+'">✕</td>'+
+        '</tr>';
+
+    }).join('');
+
+
+  $('empty').style.display=
+    saved.length?'none':'block';
+
+  $('sbtns').style.display=
+    saved.length?'flex':'none';
+
 }
 
-$('rows').addEventListener('click',e=>{const i=e.target.dataset.i;if(i!==undefined){saved.splice(+i,1);render();}});
-$('save').onclick=()=>{if(!cur)return;saved.push({...cur});render();$('sum').scrollIntoView({behavior:'smooth',block:'center'});};
-$('clear').onclick=()=>{if(confirm('¿Borrar todas las pruebas guardadas?')){saved=[];render();}};
+
+$('rows').addEventListener(
+  'click',
+  e=>{
+
+    const i=e.target.dataset.i;
+
+    if(i!==undefined){
+
+      saved.splice(+i,1);
+
+      render();
+
+    }
+
+  }
+);
+
+
+$('save').onclick=()=>{
+
+  if(!cur)return;
+
+  saved.push({...cur});
+
+  render();
+
+  $('sum').scrollIntoView({
+    behavior:'smooth',
+    block:'center'
+  });
+
+};
+
+
+$('clear').onclick=()=>{
+
+  if(
+    confirm(
+      '¿Borrar todas las pruebas guardadas?'
+    )
+  ){
+
+    saved=[];
+
+    render();
+
+  }
+
+};
+
 
 function makeImage(){
-  const W=1080, rh=72, head=150, foot=40, H=head+70+saved.length*rh+foot;
-  const c=document.createElement('canvas'); c.width=W; c.height=H;
-  const x=c.getContext('2d');
-  x.fillStyle='#fff'; x.fillRect(0,0,W,H);
-  x.fillStyle='#262626'; x.font='600 44px system-ui,sans-serif'; x.textAlign='left';
-  x.fillText('Resumen de pruebas · Cobre',40,80);
-  const cols=['P. cobre','T.C.','Cu','CuSol','Ley cab.','S/ ton','Rent.'];
-  const w=[140,120,120,140,150,190,140]; let px=40; const xs=[];
-  w.forEach(v=>{xs.push(px);px+=v;});
-  const y0=head;
-  x.fillStyle='#fff59d'; x.fillRect(xs[5],y0,w[5]+w[6],70+saved.length*rh);
-  x.textAlign='center'; x.font='600 26px system-ui,sans-serif'; x.fillStyle='#8a8a86';
-  cols.forEach((t,i)=>x.fillText(t,xs[i]+w[i]/2,y0+45));
-  x.strokeStyle='#e6e6e3'; x.lineWidth=2;
-  x.beginPath(); x.moveTo(40,y0+70); x.lineTo(W-40,y0+70); x.stroke();
-  saved.forEach((r,ri)=>{
-    const y=y0+70+ri*rh;
-    cells(r).forEach((t,i)=>{
-      x.fillStyle='#262626'; x.font=(i>4?'700 ':'400 ')+'28px system-ui,sans-serif';
-      x.fillText(t,xs[i]+w[i]/2,y+46);
-    });
-    x.beginPath(); x.moveTo(40,y+rh); x.lineTo(W-40,y+rh); x.stroke();
+
+  const W=1080;
+  const rh=72;
+  const head=150;
+  const foot=40;
+
+  const H=
+    head+
+    70+
+    saved.length*rh+
+    foot;
+
+
+  const c=
+    document.createElement('canvas');
+
+  c.width=W;
+  c.height=H;
+
+
+  const x=
+    c.getContext('2d');
+
+
+  x.fillStyle='#fff';
+
+  x.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
+
+
+  x.fillStyle='#262626';
+
+  x.font=
+    '600 44px system-ui,sans-serif';
+
+  x.textAlign='left';
+
+
+  x.fillText(
+    'Resumen de pruebas · Cobre',
+    40,
+    80
+  );
+
+
+  const cols=[
+    'P. cobre',
+    'T.C.',
+    'Cu',
+    'CuSol',
+    'Ley cab.',
+    'S/ ton',
+    'Rent.'
+  ];
+
+
+  const w=[
+    140,
+    120,
+    120,
+    140,
+    150,
+    190,
+    140
+  ];
+
+
+  let px=40;
+  const xs=[];
+
+
+  w.forEach(v=>{
+    xs.push(px);
+    px+=v;
   });
-  return new Promise(res=>c.toBlob(res,'image/png'));
+
+
+  const y0=head;
+
+
+  x.fillStyle='#fff59d';
+
+  x.fillRect(
+    xs[5],
+    y0,
+    w[5]+w[6],
+    70+saved.length*rh
+  );
+
+
+  x.textAlign='center';
+
+  x.font=
+    '600 26px system-ui,sans-serif';
+
+  x.fillStyle='#8a8a86';
+
+
+  cols.forEach((t,i)=>
+    x.fillText(
+      t,
+      xs[i]+w[i]/2,
+      y0+45
+    )
+  );
+
+
+  x.strokeStyle='#e6e6e3';
+  x.lineWidth=2;
+
+
+  x.beginPath();
+
+  x.moveTo(
+    40,
+    y0+70
+  );
+
+  x.lineTo(
+    W-40,
+    y0+70
+  );
+
+  x.stroke();
+
+
+  saved.forEach((r,ri)=>{
+
+    const y=
+      y0+
+      70+
+      ri*rh;
+
+
+    cells(r).forEach((t,i)=>{
+
+      x.fillStyle='#262626';
+
+      x.font=
+        (i>4?'700 ':'400 ')+
+        '28px system-ui,sans-serif';
+
+
+      x.fillText(
+        t,
+        xs[i]+w[i]/2,
+        y+46
+      );
+
+    });
+
+
+    x.beginPath();
+
+    x.moveTo(
+      40,
+      y+rh
+    );
+
+    x.lineTo(
+      W-40,
+      y+rh
+    );
+
+    x.stroke();
+
+  });
+
+
+  return new Promise(
+    res=>c.toBlob(
+      res,
+      'image/png'
+    )
+  );
+
 }
 
+
 $('share').onclick=async()=>{
-  const blob=await makeImage();
-  const file=new File([blob],'resumen-cobre.png',{type:'image/png'});
-  if(navigator.canShare&&navigator.canShare({files:[file]})){
-    try{await navigator.share({files:[file],title:'Resumen de pruebas'});return;}catch(e){if(e.name==='AbortError')return;}
+
+  const blob=
+    await makeImage();
+
+
+  const file=
+    new File(
+      [blob],
+      'resumen-cobre.png',
+      {type:'image/png'}
+    );
+
+
+  if(
+    navigator.canShare &&
+    navigator.canShare({
+      files:[file]
+    })
+  ){
+
+    try{
+
+      await navigator.share({
+        files:[file],
+        title:'Resumen de pruebas'
+      });
+
+      return;
+
+    }catch(e){
+
+      if(
+        e.name==='AbortError'
+      )return;
+
+    }
+
   }
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resumen-cobre.png';
-  document.body.appendChild(a); a.click(); a.remove();
-  alert('Tu navegador no permite compartir directo. Se descargó la imagen; envíala por WhatsApp desde tu galería.');
+
+
+  const a=
+    document.createElement('a');
+
+  a.href=
+    URL.createObjectURL(blob);
+
+  a.download=
+    'resumen-cobre.png';
+
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+
+  alert(
+    'Tu navegador no permite compartir directo. Se descargó la imagen; envíala por WhatsApp desde tu galería.'
+  );
+
 };
 
-$('origen').addEventListener('change',()=>{
-  const o=RNG[$('origen').value], h=$('hint');
-  if(o){$('lc').value=String(o[1]);h.textContent=$('origen').value+': rango '+o[0]+' · sugerido '+o[1];h.style.display='block';}
-  else{h.style.display='none';}
-  calc();
-});
-$('lcr').addEventListener('input',()=>{lcrManual=$('lcr').value.trim()!=='';calc();});
+
+$('origen').addEventListener(
+  'change',
+  ()=>{
+
+    const o=
+      RNG[$('origen').value];
+
+    const h=
+      $('hint');
+
+
+    if(o){
+
+      $('lc').value=
+        String(o[1]);
+
+      h.textContent=
+        $('origen').value+
+        ': rango '+
+        o[0]+
+        ' · sugerido '+
+        o[1];
+
+      h.style.display='block';
+
+    }else{
+
+      h.style.display='none';
+
+    }
+
+
+    calc();
+
+  }
+);
+
+
+$('lcr').addEventListener(
+  'input',
+  ()=>{
+    lcrManual=
+      $('lcr').value.trim()!=='';
+
+    calc();
+  }
+);
+
 
 // Parámetros protegidos
+
 let unlocked=false;
+
+
 $('pedit').onclick=()=>{
-  const ids=['pd','lb','dp','mp','mf','ad'];
+
+  const ids=[
+    'pd',
+    'lb',
+    'dp',
+    'mp',
+    'mf',
+    'ad'
+  ];
+
+
   if(!unlocked){
-    if(!confirm('¿Seguro que quieres editar los parámetros? Cambian todos los cálculos.'))return;
-    unlocked=true;ids.forEach(i=>$(i).disabled=false);$('pedit').textContent='Bloquear parámetros';
+
+    if(
+      !confirm(
+        '¿Seguro que quieres editar los parámetros? Cambian todos los cálculos.'
+      )
+    )return;
+
+
+    unlocked=true;
+
+    ids.forEach(
+      i=>$(i).disabled=false
+    );
+
+
+    $('pedit').textContent=
+      'Bloquear parámetros';
+
   }else{
-    unlocked=false;ids.forEach(i=>$(i).disabled=true);$('pedit').textContent='Editar parámetros';
+
+    unlocked=false;
+
+    ids.forEach(
+      i=>$(i).disabled=true
+    );
+
+
+    $('pedit').textContent=
+      'Editar parámetros';
+
   }
+
 };
 
-// Enter pasa al siguiente campo
-const order=[...document.querySelectorAll('.card input:not([disabled]),.card select')].filter(e=>!['pd','lb','dp','mp','mf','ad'].includes(e.id));
-order.forEach((el,i)=>el.addEventListener('keydown',e=>{
-  if(e.key==='Enter'){e.preventDefault();const nx=order[i+1];if(nx)nx.focus();else el.blur();}
-}));
 
-document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',calc));
-calc(); render();
+// Enter pasa al siguiente campo
+
+const order=[
+  ...document.querySelectorAll(
+    '.card input:not([disabled]),.card select'
+  )
+].filter(
+  e=>
+    ![
+      'pd',
+      'lb',
+      'dp',
+      'mp',
+      'mf',
+      'ad'
+    ].includes(e.id)
+);
+
+
+order.forEach((el,i)=>
+
+  el.addEventListener(
+    'keydown',
+    e=>{
+
+      if(e.key==='Enter'){
+
+        e.preventDefault();
+
+        const nx=
+          order[i+1];
+
+        if(nx)
+          nx.focus();
+        else
+          el.blur();
+
+      }
+
+    }
+  )
+
+);
+
+
+document
+  .querySelectorAll('input,select')
+  .forEach(
+    e=>
+      e.addEventListener(
+        'input',
+        calc
+      )
+  );
+
+
+calc();
+render();
+
 </script>
+
 </body>
 </html>

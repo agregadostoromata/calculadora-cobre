@@ -40,18 +40,17 @@ h2{font-size:13px;color:var(--txt);font-weight:700;margin:0 0 10px}
 .r{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
 .r.b{font-weight:600}
 .y{background:var(--y);border:1px solid #bfe5d0;border-radius:6px;padding:10px 12px;margin-top:6px;display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
-.sug{grid-column:1/-1;display:none;align-items:center;gap:6px;flex-wrap:wrap}
+.sug{grid-column:1/-1;display:none;align-items:center;gap:6px;flex-wrap:nowrap}
 .sug .h{font-size:11px;color:var(--mut)}
 .sr{display:contents}
-button.chip{flex:0 0 auto;height:30px;padding:0 11px;font-size:12px;border-radius:4px;background:#f1f8f4;border-color:#b7dcc8}
+button.chip{flex:1 1 0;min-width:0;white-space:nowrap;height:30px;padding:0 8px;font-size:12px;border-radius:4px;background:#f1f8f4;border-color:#b7dcc8}
 button.chip small{font-weight:400;color:var(--mut);font-size:11px;margin-left:5px}
-.refl{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px}
-.refl a{color:var(--g);text-decoration:none;font-weight:600}
 #sum .tw{border:1px solid var(--line);border-radius:6px;overflow:hidden}
 #sum th{background:#f4f7f5;padding:9px 2px;font-size:10px}
 #sum td{padding:11px 2px}
 #sum tbody tr:nth-child(even) td:not(.yy){background:#fafcfb}
 #sum tbody tr:last-child td{border-bottom:0}
+.b4{grid-template-columns:repeat(4,1fr);border-top:0;padding-top:0}.b4 .pr{color:#0b7a47}
 .tc{border:1px solid var(--line);border-radius:6px;padding:14px;margin-bottom:10px;background:#fafcfb}
 .t1{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .t1>div{flex:1}
@@ -140,13 +139,12 @@ details p{margin:6px 0}
  <div class="g">
   <div class="f"><label for="pprot">Precio protegido</label><input id="pprot" type="text" inputmode="decimal"></div>
   <div class="f"><label for="tc">Tipo de cambio</label><input id="tc" type="text" inputmode="decimal"></div>
-  <div class="refl"><button type="button" class="chip" id="tcref" style="display:none"></button></div>
   <div class="f"><label for="pkg">Compra por kg (US$)</label><input id="pkg" type="text" inputmode="decimal"></div>
   <div class="f"><label for="lugar">Lugar de compra</label>
    <select id="lugar"><option value="">Seleccionar</option><option value="0">Mina</option><option value="0.18">Pachachaca</option><option value="0.33">Nazca</option></select></div>
   <div class="sug" id="sug" data-f="sug">
-   <span class="h">Sugerido · toca para usar</span>
-   <div class="sr"><button type="button" class="chip" id="s8"></button><button type="button" class="chip" id="s5"></button></div>
+   
+   <div class="sr"><button type="button" class="chip" id="s8"></button><button type="button" class="chip" id="s5"></button></div><span class="h"></span>
   </div>
  </div>
 </div>
@@ -178,6 +176,13 @@ details p{margin:6px 0}
  <div id="rows"></div>
  <div class="empty" id="empty">Aún no hay pruebas guardadas</div>
  <div class="btns" id="sbtns"><button class="wa" id="share">Compartir imagen</button><button id="clear">Limpiar</button></div>
+</div>
+
+<div class="card" id="buy">
+ <h2>Cotización para comprador</h2>
+ <div id="brows"></div>
+ <div class="empty" id="bempty">Guarda pruebas para armar la cotización</div>
+ <div class="btns" id="bbtns"><button class="wa" id="shareb">Compartir imagen</button></div>
 </div>
 
 </div>
@@ -362,6 +367,12 @@ function render(){
  }).join('');
  $('empty').style.display=saved.length?'none':'block';
  $('sbtns').style.display=saved.length?'flex':'none';
+ $('brows').innerHTML=saved.map(r=>{
+  const v=cells(r);
+  return '<div class="tc"><div class="t2 b4"><div><small>Cu</small>'+v[2]+'</div><div><small>CuSol</small>'+(v[3]||'–')+'</div><div><small>Ley cab.</small>'+v[4]+'</div><div class="pr"><small>Precio / ton</small>S/ '+f(r.pton,0)+'</div></div></div>';
+ }).join('');
+ $('bempty').style.display=saved.length?'none':'block';
+ $('bbtns').style.display=saved.length?'flex':'none';
 }
 
 $('rows').addEventListener('click',e=>{
@@ -390,7 +401,7 @@ function makeImage(){
  const x=c.getContext('2d');
  const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
  x.fillStyle='#eff2f1';x.fillRect(0,0,W,H);
- x.textAlign='left';x.fillStyle='#14201b';x.font='700 44px'+F;x.fillText('Resumen de pruebas · Cobre',40,80);
+ x.textAlign='left';x.fillStyle='#14201b';x.font='700 44px'+F;x.fillText('Cotización de cobre',40,80);
  x.fillStyle='#6b7872';x.font='400 24px'+F;x.fillText(new Date().toLocaleDateString('es-PE'),40,118);
  const col={g:['#d8f2e5','#0b7a47'],a:['#fdf0c9','#8a6500'],r:['#fde0e4','#c4263c']};
  saved.forEach((r,i)=>{
@@ -414,12 +425,11 @@ function makeImage(){
  return new Promise(res=>c.toBlob(res,'image/png'));
 }
 
-$('share').onclick=async()=>{
- const blob=await makeImage();
- const file=new File([blob],'resumen-cobre.png',{type:'image/png'});
+async function shareImg(blob,name,title){
+ const file=new File([blob],name,{type:'image/png'});
  if(navigator.canShare&&navigator.canShare({files:[file]})){
   try{
-   await navigator.share({files:[file],title:'Resumen de pruebas'});
+   await navigator.share(title?{files:[file],title:title}:{files:[file]});
    return;
   }catch(e){
    if(e.name==='AbortError')return;
@@ -427,10 +437,35 @@ $('share').onclick=async()=>{
  }
  const a=document.createElement('a');
  a.href=URL.createObjectURL(blob);
- a.download='resumen-cobre.png';
+ a.download=name;
  document.body.appendChild(a);a.click();a.remove();
  alert('Tu navegador no permite compartir directo. Se descargó la imagen; envíala por WhatsApp desde tu galería.');
-};
+}
+function makeBuyerImage(){
+ const W=1080,ch=130,gap=16,pad=30,F=' system-ui,sans-serif';
+ const H=pad*2+saved.length*ch+(saved.length-1)*gap;
+ const c=document.createElement('canvas');c.width=W;c.height=H;
+ const x=c.getContext('2d');
+ const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()};
+ x.fillStyle='#eff2f1';x.fillRect(0,0,W,H);
+ const L=['Cu','CuSol','Ley de cabeza','Precio de compra'],X=[70,230,420,700];
+ saved.forEach((r,i)=>{
+  const y=pad+i*(ch+gap),v=cells(r);
+  x.fillStyle='#fff';rr(30,y,W-60,ch,8);x.fill();
+  x.strokeStyle='#e6eae8';x.lineWidth=2;x.stroke();
+  x.fillStyle='#d8f2e5';x.fillRect(X[3]-30,y+2,W-30-(X[3]-30)-2,ch-4);
+  const val=[v[2],v[3]||'–',v[4],'S/ '+f(r.pton,0)+' / ton'];
+  x.textAlign='left';
+  L.forEach((l,j)=>{
+   x.fillStyle='#6b7872';x.font='400 22px'+F;x.fillText(l,X[j],y+48);
+   x.fillStyle=j==3?'#0b7a47':'#14201b';x.font=(j==3?'700 40px':'600 34px')+F;x.fillText(val[j],X[j],y+96);
+  });
+ });
+ return new Promise(res=>c.toBlob(res,'image/png'));
+}
+
+$('share').onclick=async()=>shareImg(await makeImage(),'cotizacion-cobre.png','Cotización de cobre');
+$('shareb').onclick=async()=>shareImg(await makeBuyerImage(),'cotizacion.png');
 
 $('origen').addEventListener('change',()=>{
  const o=RNG[$('origen').value],h=$('hint');
@@ -473,12 +508,6 @@ order.forEach((el,i)=>el.addEventListener('keydown',e=>{
 
 document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',calc));
 
-let TCR=null;
-$('tcref').onclick=()=>{if(TCR){$('tc').value=TCR.toFixed(3);calc()}};
-fetch('https://open.er-api.com/v6/latest/USD').then(x=>x.json()).then(d=>{
- const v=d&&d.rates&&d.rates.PEN;
- if(v){TCR=v;$('tcref').textContent='T.C. ref. '+v.toFixed(3)+' · toca para usar';$('tcref').style.display=''}
-}).catch(()=>{});
 
 calc();
 render();
